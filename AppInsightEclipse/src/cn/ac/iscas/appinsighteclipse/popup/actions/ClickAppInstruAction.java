@@ -18,9 +18,13 @@ import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.Status;
 
-import cn.ac.iscas.appinsighteclipse.Activator;
+import cn.ac.iscas.appinsighteclipse.Activator;;
 
-public class NewAction implements IObjectActionDelegate {
+/**
+ * @author sanchuan
+ *
+ */
+public class ClickAppInstruAction implements IObjectActionDelegate {
 
 	private Shell shell;
 	
@@ -37,7 +41,7 @@ public class NewAction implements IObjectActionDelegate {
 	/**
 	 * Constructor for Action1.
 	 */
-	public NewAction() {
+	public ClickAppInstruAction() {
 		super();
 	}
 	
@@ -53,23 +57,62 @@ public class NewAction implements IObjectActionDelegate {
 	 * @see IActionDelegate#run(IAction)
 	 */
 	public void run(IAction action) {
+
+		showMessageBox();
+		setLogger();
+		logInfoMessage("hi");
+		setApplicationConsole();
+		setApplicationConsoleStream();
+		revealApplicationConsole();
+		applicationConsolePrintln("hello, world");
+	}
+
+	/**
+	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
+	 */
+	public void selectionChanged(IAction action, ISelection selection) {
+	}
+
+	/**
+	 * show message box
+	 * 
+	 */
+	void showMessageBox()
+	{
 		MessageDialog.openInformation(
-			shell,
-			"AppInsightEclipse",
-			"AppInsightEclipse Instrument was executed.");
-		
-		
+				shell,
+				"AppInsightEclipse",
+				"AppInsightEclipse Instrument was executed.");
+	}
+	
+	/**
+	 * set logger
+	 * 
+	 */
+	void setLogger()
+	{
 		logger = Activator.getDefault().getLog();
+	}
+	
+	/**
+	 * log info message to IDE console
+	 */
+	void logInfoMessage(String m)
+	{
 		logger.log(new Status(Status.INFO,Activator.PLUGIN_ID,Status.OK,
-				"hi",null));
-		
-		
+				m,null));
+	}
+	
+	/**
+	 * set eclipse application output console
+	 */
+	void setApplicationConsole()
+	{
 		consolePlugin = ConsolePlugin.getDefault();
 		consoleManager = consolePlugin.getConsoleManager();
 		consoles = consoleManager.getConsoles();
 		
-		logger.log(new Status(Status.INFO,Activator.PLUGIN_ID,Status.OK,
-				String.valueOf(consoles.length),null));
+		logInfoMessage(String.valueOf(consoles.length));
 		
 		for(int i = 0;i<consoles.length;i++)
 		{
@@ -80,10 +123,29 @@ public class NewAction implements IObjectActionDelegate {
 		}
 		appInsightConsole = new MessageConsole("AppInsightConsole",null);
 		consoleManager.addConsoles(new IConsole[]{appInsightConsole});
-		
+	}
+	
+	/**
+	 * set application output stream
+	 */
+	void setApplicationConsoleStream()
+	{
 		appInsightConsoleStream = appInsightConsole.newMessageStream();
-		appInsightConsoleStream.println("hello, world");
-		
+	}
+	
+	/**
+	 * application console print line
+	 */
+	void applicationConsolePrintln(String m)
+	{
+		appInsightConsoleStream.println(m);
+	}
+	
+	/**
+	 * reveal and show application console
+	 */
+	void revealApplicationConsole()
+	{
 		iConsoleViewId = IConsoleConstants.ID_CONSOLE_VIEW;
 		try {
 			iConsoleView = (IConsoleView)workbenchPage.showView(iConsoleViewId);
@@ -91,12 +153,5 @@ public class NewAction implements IObjectActionDelegate {
 			e.printStackTrace();
 		}
 		iConsoleView.display(appInsightConsole);
-	}
-
-	/**
-	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
-	 */
-	public void selectionChanged(IAction action, ISelection selection) {
-	}
-
+	}	
 }
