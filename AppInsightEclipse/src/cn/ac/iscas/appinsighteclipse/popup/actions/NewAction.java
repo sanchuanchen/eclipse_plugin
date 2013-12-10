@@ -5,10 +5,14 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IObjectActionDelegate;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.IConsoleConstants;
 import org.eclipse.ui.console.IConsoleManager;
+import org.eclipse.ui.console.IConsoleView;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.core.runtime.ILog;
@@ -26,6 +30,9 @@ public class NewAction implements IObjectActionDelegate {
 	IConsole[] consoles;
 	MessageConsole appInsightConsole;
 	MessageConsoleStream appInsightConsoleStream;
+	IWorkbenchPage workbenchPage;
+	String iConsoleViewId;
+	IConsoleView iConsoleView;
 	
 	/**
 	 * Constructor for Action1.
@@ -33,12 +40,13 @@ public class NewAction implements IObjectActionDelegate {
 	public NewAction() {
 		super();
 	}
-
+	
 	/**
 	 * @see IObjectActionDelegate#setActivePart(IAction, IWorkbenchPart)
 	 */
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 		shell = targetPart.getSite().getShell();
+		workbenchPage = targetPart.getSite().getPage();
 	}
 
 	/**
@@ -76,10 +84,13 @@ public class NewAction implements IObjectActionDelegate {
 		appInsightConsoleStream = appInsightConsole.newMessageStream();
 		appInsightConsoleStream.println("hello, world");
 		
-		
-		
-		
-		
+		iConsoleViewId = IConsoleConstants.ID_CONSOLE_VIEW;
+		try {
+			iConsoleView = (IConsoleView)workbenchPage.showView(iConsoleViewId);
+		} catch (PartInitException e) {
+			e.printStackTrace();
+		}
+		iConsoleView.display(appInsightConsole);
 	}
 
 	/**
