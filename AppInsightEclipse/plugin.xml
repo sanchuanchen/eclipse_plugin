@@ -17,10 +17,10 @@
          </menu>
          <action
                label="AppInsightEclipse Instrument"
-               class="cn.ac.iscas.appinsighteclipse.popup.actions.NewAction"
+               class="cn.ac.iscas.appinsighteclipse.popup.actions.ClickAppInstruAction"
                menubarPath="cn.ac.iscas.appinsighteclipse.menu1/group1"
                enablesFor="1"
-               id="cn.ac.iscas.appinsighteclipse.newAction">
+               id="cn.ac.iscas.appinsighteclipse.popup.actions.ClickAppInstruAction">
          </action>
       </objectContribution>
    </extension>

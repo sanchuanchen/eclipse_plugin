@@ -1,8 +1,14 @@
 package cn.ac.iscas.appinsighteclipse.popup.actions;
 
+import java.io.File;
+
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITreeSelection;
+import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPage;
@@ -15,7 +21,10 @@ import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.IConsoleView;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.ILog;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Status;
 
 import cn.ac.iscas.appinsighteclipse.Activator;;
@@ -26,7 +35,9 @@ import cn.ac.iscas.appinsighteclipse.Activator;;
  */
 public class ClickAppInstruAction implements IObjectActionDelegate {
 
-	private Shell shell;
+	Shell shell;
+	IWorkbenchPart iWorkbenchPart;
+	
 	
 	ILog logger;
 	ConsolePlugin consolePlugin;
@@ -37,6 +48,14 @@ public class ClickAppInstruAction implements IObjectActionDelegate {
 	IWorkbenchPage workbenchPage;
 	String iConsoleViewId;
 	IConsoleView iConsoleView;
+	TreePath[] treePath;
+	
+	ISelection iSelection;
+	Object element;
+	IJavaProject iJavaProject;
+	IPath iPath;
+	IProject iProject;
+	
 	
 	/**
 	 * Constructor for Action1.
@@ -50,6 +69,7 @@ public class ClickAppInstruAction implements IObjectActionDelegate {
 	 */
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 		shell = targetPart.getSite().getShell();
+		iWorkbenchPart = targetPart;
 		workbenchPage = targetPart.getSite().getPage();
 	}
 
@@ -64,7 +84,39 @@ public class ClickAppInstruAction implements IObjectActionDelegate {
 		setApplicationConsole();
 		setApplicationConsoleStream();
 		revealApplicationConsole();
-		applicationConsolePrintln("hello, world");
+		
+		iSelection = iWorkbenchPart.getSite().getSelectionProvider().getSelection();
+		applicationConsolePrintln(iSelection.toString());
+		element = ((IStructuredSelection)iSelection).getFirstElement();
+		logInfoMessage(element.getClass().toString());
+		
+		
+		//if selection project is a java project
+		if(element instanceof IJavaProject)
+		{
+			//get project local path
+			iJavaProject = (IJavaProject)element;
+			iPath = iJavaProject.getPath();
+			
+			logInfoMessage(iPath.toString());
+			
+			//get project full path
+			iProject = iJavaProject.getProject();
+			iPath = iProject.getLocation();
+			
+			logInfoMessage(iPath.toString());
+			
+			File inputFile = new File("dir" + File.separator +"hello.txt");
+			logInfoMessage(inputFile.getAbsolutePath());
+			
+			
+			
+		}
+		else
+		{
+			applicationConsolePrintln("not a java project!");
+		}
+		
 	}
 
 	/**
