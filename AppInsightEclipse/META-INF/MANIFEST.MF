@@ -3,9 +3,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: AppInsightEclipse
 Bundle-SymbolicName: cn.ac.iscas.appinsighteclipse;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: appinsighteclipse.Activator
+Bundle-Activator: cn.ac.iscas.appinsighteclipse.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.core.resources
+ org.eclipse.core.resources,
+ org.eclipse.ui.console;bundle-version="3.5.200"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
