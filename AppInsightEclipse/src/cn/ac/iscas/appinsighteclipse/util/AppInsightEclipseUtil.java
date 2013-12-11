@@ -11,7 +11,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.console.MessageConsoleStream;
 
 import cn.ac.iscas.appinsighteclipse.Activator;
-import cn.ac.iscas.appinsighteclipse.Globe;
+import cn.ac.iscas.appinsighteclipse.Global;
 
 
 /**
@@ -105,7 +105,7 @@ public class AppInsightEclipseUtil {
 		try{
 			FileInputStream fileInputStream = new FileInputStream(file);
 			BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
-			MessageConsoleStream messageConsoleStream = Globe.getMessageConsoleStream();
+			MessageConsoleStream messageConsoleStream = Global.getMessageConsoleStream();
 			
 			byte[] b = new byte[1024*10];
 			int len;
@@ -172,7 +172,7 @@ public class AppInsightEclipseUtil {
 			copyDirectory(inputFile,outputFile);
 		else
 		{
-			Globe.getLogger().log(new Status(Status.INFO,Activator.PLUGIN_ID,Status.OK,
+			Global.getLogger().log(new Status(Status.INFO,Activator.PLUGIN_ID,Status.OK,
 					"path is not a directory",null));
 		}		
 	}

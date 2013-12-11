@@ -36,7 +36,7 @@ import org.eclipse.core.runtime.Status;
 import org.osgi.framework.Bundle;
 
 import cn.ac.iscas.appinsighteclipse.Activator;
-import cn.ac.iscas.appinsighteclipse.Globe;
+import cn.ac.iscas.appinsighteclipse.Global;
 import cn.ac.iscas.appinsighteclipse.util.AppInsightEclipseUtil;
 
 /**
@@ -125,7 +125,7 @@ public class ClickAppInstruAction implements IObjectActionDelegate {
 	void setLogger()
 	{
 		logger = Activator.getDefault().getLog();
-		Globe.setLogger(logger);
+		Global.setLogger(logger);
 	}
 	
 	/**
@@ -165,7 +165,7 @@ public class ClickAppInstruAction implements IObjectActionDelegate {
 	void setApplicationConsoleStream()
 	{
 		appInsightConsoleStream = appInsightConsole.newMessageStream();
-		Globe.setMessageConsoleStream(appInsightConsoleStream);
+		Global.setMessageConsoleStream(appInsightConsoleStream);
 	}
 	
 	/**

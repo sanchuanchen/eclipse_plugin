@@ -3,7 +3,7 @@ package cn.ac.iscas.appinsighteclipse;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.ui.console.MessageConsoleStream;
 
-public class Globe {
+public class Global {
 	
 	static MessageConsoleStream messageConsoleStream;
 	static ILog logger;
@@ -14,7 +14,7 @@ public class Globe {
 
 	public static void setMessageConsoleStream(
 			MessageConsoleStream messageConsoleStream) {
-		Globe.messageConsoleStream = messageConsoleStream;
+		Global.messageConsoleStream = messageConsoleStream;
 	}
 
 	public static ILog getLogger() {
@@ -22,7 +22,7 @@ public class Globe {
 	}
 
 	public static void setLogger(ILog logger) {
-		Globe.logger = logger;
+		Global.logger = logger;
 	}
 	
 	
