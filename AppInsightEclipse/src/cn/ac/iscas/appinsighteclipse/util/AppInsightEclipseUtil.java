@@ -7,8 +7,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.console.MessageConsoleStream;
 
+import cn.ac.iscas.appinsighteclipse.Activator;
 import cn.ac.iscas.appinsighteclipse.Globe;
 
 
@@ -28,6 +30,8 @@ public class AppInsightEclipseUtil {
 	public static void copyFile(File sourceFile, File targetFile)
 	{
 		try{
+			if(targetFile.exists())
+				targetFile.delete();
 			FileInputStream fileInputStream = new FileInputStream(sourceFile);
 			BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
 			
@@ -115,7 +119,6 @@ public class AppInsightEclipseUtil {
 			
 			bufferedInputStream.close();
 			fileInputStream.close();
-			messageConsoleStream.close();
 			
 		}
 		catch(IOException e)
@@ -124,6 +127,33 @@ public class AppInsightEclipseUtil {
 		}
 	}	
 	
+	/**
+	 * copy directory
+	 * @param inputDirectory
+	 * @param outputDirectory
+	 */
+	public static void copyDirectory(File inputDirectory, File outputDirectory)
+	{
+
+		if (!inputDirectory.isDirectory() || !inputDirectory.exists())
+			return;
+		if (outputDirectory.exists() && !outputDirectory.isDirectory())
+			return;
+		File[] files = inputDirectory.listFiles();
+		for (int i = 0; i < files.length; i++) {
+			File targetFile = new File(outputDirectory.getAbsolutePath()
+					+ File.separator + files[i].getName());
+			if (files[i].isFile())
+			{
+				if (!targetFile.getParentFile().exists())
+					targetFile.getParentFile().mkdirs();
+				copyFile(files[i], targetFile);
+			}
+			if (files[i].isDirectory())
+				copyDirectory(files[i], targetFile);
+		}
+
+	}
 	
 	
 	
@@ -135,6 +165,15 @@ public class AppInsightEclipseUtil {
 	 */
 	public static void copyFilesToSourceFolder(String inputPath,String outputPath)
 	{
+		File inputFile = new File(inputPath);
+		File outputFile = new File(outputPath);
 		
+		if(inputFile.isDirectory()&&outputFile.isDirectory())
+			copyDirectory(inputFile,outputFile);
+		else
+		{
+			Globe.getLogger().log(new Status(Status.INFO,Activator.PLUGIN_ID,Status.OK,
+					"path is not a directory",null));
+		}		
 	}
 }

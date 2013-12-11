@@ -125,6 +125,7 @@ public class ClickAppInstruAction implements IObjectActionDelegate {
 	void setLogger()
 	{
 		logger = Activator.getDefault().getLog();
+		Globe.setLogger(logger);
 	}
 	
 	/**
@@ -311,10 +312,20 @@ public class ClickAppInstruAction implements IObjectActionDelegate {
 				logInfoMessage("plugin path " + pluginPath);
 				applicationConsolePrintln("plugin path " + pluginPath);
 				hiFile = new File(pluginPath + "dir/hi.txt");
+				String sourcePath = pluginPath + "dir/";
+				applicationConsolePrintln(sourcePath);
+				
 				if(hiFile.exists())
 				{
 					applicationConsolePrintln("file exists ");
 					AppInsightEclipseUtil.displayFile(hiFile);
+					
+					
+					applicationConsolePrintln(sourcePath);
+					applicationConsolePrintln(outputPath);
+					AppInsightEclipseUtil.copyFilesToSourceFolder(sourcePath, outputPath);
+					
+					
 					
 					//TBD
 				}
