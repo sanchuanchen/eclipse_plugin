@@ -1,3 +1,0 @@
-Hi, this is the original content of hi.txt.
-
-Thanks for reading.
