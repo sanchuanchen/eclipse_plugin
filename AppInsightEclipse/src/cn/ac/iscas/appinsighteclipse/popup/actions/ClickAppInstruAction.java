@@ -28,6 +28,7 @@ import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -334,18 +335,20 @@ public class ClickAppInstruAction implements IObjectActionDelegate {
 				applicationConsolePrintln(outputPath);
 				AppInsightEclipseUtil.copyFilesToSourceFolder(sourcePath, outputPath);
 				
+				logInfoMessage("AppInsight sdk added");
+				applicationConsolePrintln("AppInsight sdk added");
+				
+				//refresh the selected project
+				iProject.refreshLocal(IResource.DEPTH_INFINITE, null);
 				
 			} catch (IOException e) {
 				e.printStackTrace();
+			} catch (CoreException e) {
+				e.printStackTrace();
 			}
-			
-			//TBD
-			
 		}
 		else
-		{
 			applicationConsolePrintln("not a java project!");
-		}
 	}
 	
 	
