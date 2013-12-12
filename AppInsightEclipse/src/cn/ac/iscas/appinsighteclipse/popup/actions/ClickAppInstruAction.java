@@ -312,7 +312,7 @@ public class ClickAppInstruAction implements IObjectActionDelegate {
 				logInfoMessage("plugin path " + pluginPath);
 				applicationConsolePrintln("plugin path " + pluginPath);
 				hiFile = new File(pluginPath + "dir/hi.txt");
-				String sourcePath = pluginPath + "dir/";
+				String sourcePath = pluginPath + "dir/appinsight_sdk/";
 				applicationConsolePrintln(sourcePath);
 				
 				/*
