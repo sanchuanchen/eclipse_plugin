@@ -315,22 +315,25 @@ public class ClickAppInstruAction implements IObjectActionDelegate {
 				String sourcePath = pluginPath + "dir/";
 				applicationConsolePrintln(sourcePath);
 				
+				/*
 				if(hiFile.exists())
 				{
 					applicationConsolePrintln("file exists ");
 					AppInsightEclipseUtil.displayFile(hiFile);
 					
+
 					
-					applicationConsolePrintln(sourcePath);
-					applicationConsolePrintln(outputPath);
-					AppInsightEclipseUtil.copyFilesToSourceFolder(sourcePath, outputPath);
-					
-					
-					
-					//TBD
 				}
 				else
 					applicationConsolePrintln("file does not exist ");
+				*/
+				
+				
+				//copy appsight sdk into application workspace source code folder
+				applicationConsolePrintln(sourcePath);
+				applicationConsolePrintln(outputPath);
+				AppInsightEclipseUtil.copyFilesToSourceFolder(sourcePath, outputPath);
+				
 				
 			} catch (IOException e) {
 				e.printStackTrace();
